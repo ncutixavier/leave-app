@@ -1,2 +1,2 @@
 # leave-app
-Leave App with React Native
+Leave App with flutter
