@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "688087372190",
+    "firebase_url": "https://airbnb-clone-48073.firebaseio.com",
+    "project_id": "airbnb-clone-48073",
+    "storage_bucket": "airbnb-clone-48073.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:688087372190:android:a1f03330c46d720567468f",
+        "android_client_info": {
+          "package_name": "com.example.leaveapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "688087372190-je8pb0pq9pc72ubkmqqcgm53ljtq2ne9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTZuY1SI1ztN_yJvPAntADaT0nHIYdFRY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "688087372190-je8pb0pq9pc72ubkmqqcgm53ljtq2ne9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
