@@ -3,28 +3,15 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:leaveapp/models/user_register.dart';
 import 'package:leaveapp/screens/leave.dart';
 import 'package:leaveapp/screens/login.dart';
 import 'package:leaveapp/models/department.dart';
 import 'package:http/http.dart' as http;
-
-Future<Department> fetchDepartment() async {
-  final response = await http
-      .get(Uri.parse('http://nx-leave-app.herokuapp.com/api/v1/departments'));
-
-  print('RES-STATUS::' + response.statusCode.toString());
-
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    var data = jsonDecode(response.body);
-    return Department.fromJson(jsonDecode(data['departments']));
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load Department');
-  }
-}
+import 'package:leaveapp/services/department-service.dart';
+import 'package:leaveapp/models/department.dart';
+import 'package:leaveapp/services/user_service.dart';
+import 'package:another_flushbar/flushbar.dart';
 
 class Register_Screen extends StatefulWidget {
   const Register_Screen({Key? key}) : super(key: key);
@@ -36,22 +23,21 @@ class Register_Screen extends StatefulWidget {
 
 class _Register_ScreenState extends State<Register_Screen> {
   final GlobalKey<FormState> registerformkey = GlobalKey();
+  final DepartmentService httpService = DepartmentService();
+  final UserService userService = UserService();
+
   String? email = "";
   String? password = "";
   String? department = "";
   String? full_name = "";
+  String? errorMessage;
   bool show = false;
-  final List<String> departments = [
-    "Information Technology",
-    "Human Resource",
-    "Finance & Procurement"
-  ];
+  bool isloading = false;
 
-  late Future<Department> futureDepartment;
+  Future<UserRegister>? _futureUserRegister;
 
   void initState() {
     super.initState();
-    futureDepartment = fetchDepartment();
   }
 
   @override
@@ -197,28 +183,63 @@ class _Register_ScreenState extends State<Register_Screen> {
                       },
                     ),
                   ),
-                  SizedBox(
-                    height: 80.0,
-                    child: DropdownButtonFormField<String>(
-                      decoration: InputDecoration(
-                          isDense: true,
-                          border: const OutlineInputBorder(),
-                          labelText: "Department"),
-                      items: departments.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: new Text(value),
-                        );
-                      }).toList(),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Department is required';
+                  Container(
+                    height: 55.0,
+                    margin: EdgeInsets.only(bottom: 20.0),
+                    child: FutureBuilder(
+                      future: httpService.getDepartments(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<List<Department>> snapshot) {
+                        if (snapshot.hasData) {
+                          List<Department>? posts = snapshot.data;
+                          Iterable<String> all_departments = posts!
+                              .map((Department post) => post.departmentName);
+                          return DropdownButtonFormField<String>(
+                            decoration: const InputDecoration(
+                                isDense: true,
+                                border: OutlineInputBorder(),
+                                labelText: "Department"),
+                            items: all_departments.map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: new Text('${value} Department'),
+                              );
+                            }).toList(),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Department is required';
+                              }
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                department = value;
+                              });
+                            },
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('Error:: ${snapshot.error}');
+                        } else {
+                          return SizedBox(
+                            height: 55.0,
+                            width: double.infinity,
+                            child: Container(
+                              padding: EdgeInsets.only(top: 18.0),
+                              decoration: BoxDecoration(
+                                color: Color(0xffE5EBFC),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8)),
+                                border: Border.all(
+                                  color: Colors.black26, // red as border color
+                                ),
+                              ),
+                              child: Text(
+                                "Loading department...",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 17.0),
+                              ),
+                            ),
+                          );
                         }
-                      },
-                      onChanged: (value) {
-                        setState(() {
-                          department = value;
-                        });
                       },
                     ),
                   ),
@@ -231,19 +252,57 @@ class _Register_ScreenState extends State<Register_Screen> {
                           ),
                           backgroundColor:
                               MaterialStateProperty.all(Color(0xff638FFF))),
-                      onPressed: (email!.isEmpty || password!.isEmpty)
+                      onPressed: (email!.isEmpty ||
+                              password!.isEmpty ||
+                              full_name!.isEmpty ||
+                              department!.isEmpty)
                           ? null
                           : () {
                               if (registerformkey.currentState!.validate()) {
-                                Navigator.of(context)
-                                    .pushNamed(Leave_Screen.routename);
-                                print('email: $email -- password: $password');
+                                setState(() {
+                                  isloading = true;
+                                });
+                                  userService
+                                      .register('$email', '$password',
+                                          '$full_name', '$department')
+                                      .then((value) {
+                                    setState(() {
+                                      isloading = false;
+                                    });
+                                    Navigator.of(context)
+                                        .pushNamed(Login_Screen.routename);
+                                  }).catchError((error) {
+                                    setState(() {
+                                      isloading = false;
+                                    });
+                                    Map msg = jsonDecode(error.message);
+                                    Flushbar(
+                                      message: msg['message'],
+                                      backgroundColor: Color(0xffFAE8EB),
+                                      duration: Duration(seconds: 3),
+                                      messageColor: Colors.redAccent,
+                                      messageSize: 15.0,
+                                      icon: Icon(
+                                        Icons.error,
+                                        color: Colors.redAccent,
+                                      ),
+                                    ).show(context);
+                                  });
                               }
                             },
-                      child: const Text(
-                        'Sign up',
-                        style: TextStyle(fontSize: 17),
-                      ),
+                      child: isloading
+                          ? const SizedBox(
+                              child: CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.white),
+                              ),
+                              height: 20.0,
+                              width: 20.0,
+                            )
+                          : const Text(
+                              'Sign up',
+                              style: TextStyle(fontSize: 17),
+                            ),
                     ),
                   ),
                   SizedBox(

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:leaveapp/services/http-service.dart';
+import 'package:leaveapp/services/department-service.dart';
 import 'package:leaveapp/models/department.dart';
 
 class PostsPage extends StatelessWidget {
-  final HttpService httpService = HttpService();
+  final DepartmentService httpService = DepartmentService();
   static const routename = "post";
 
   @override

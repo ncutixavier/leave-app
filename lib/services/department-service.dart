@@ -2,9 +2,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:leaveapp/models/department.dart';
-import 'package:leaveapp/models/post_model.dart';
 
-class HttpService {
+class DepartmentService {
   final String api = "http://nx-leave-app.herokuapp.com/api/v1";
 
   Future<List<Department>> getDepartments() async {

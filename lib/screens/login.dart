@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -5,9 +7,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:leaveapp/screens/leave.dart';
 import 'package:leaveapp/screens/register.dart';
-import 'package:leaveapp/services/http-service.dart';
+import 'package:leaveapp/services/department-service.dart';
 import 'package:leaveapp/models/user_login.dart';
 import 'package:leaveapp/services/user_service.dart';
+import 'package:another_flushbar/flushbar.dart';
 
 class Login_Screen extends StatefulWidget {
   const Login_Screen({Key? key}) : super(key: key);
@@ -19,7 +22,7 @@ class Login_Screen extends StatefulWidget {
 
 class _Login_ScreenState extends State<Login_Screen> {
   final GlobalKey<FormState> loginformkey = GlobalKey();
-  final HttpService httpService = HttpService();
+  final DepartmentService httpService = DepartmentService();
   final UserService userService = UserService();
 
   String? email = "";
@@ -165,16 +168,37 @@ class _Login_ScreenState extends State<Login_Screen> {
                           ? null
                           : () {
                               if (loginformkey.currentState!.validate()) {
-                                Navigator.of(context)
-                                    .pushNamed(Leave_Screen.routename);
-                                print('email: $email -- password: $password');
                                 setState(() {
                                   isLoading = true;
                                 });
-                                // setState(() {
-                                //   _futureUserLoggedIn =
-                                //       userService.login('$email', '$password');
-                                // });
+
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                userService.login('$email', '$password')
+                                    .then((value) {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  Navigator.of(context)
+                                      .pushNamed(Leave_Screen.routename);
+                                }).catchError((error) {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  Map msg = jsonDecode(error.message);
+                                  Flushbar(
+                                    message: msg['message'],
+                                    backgroundColor: Color(0xffFAE8EB),
+                                    duration: Duration(seconds: 3),
+                                    messageColor: Colors.redAccent,
+                                    messageSize: 15.0,
+                                    icon: Icon(
+                                      Icons.error,
+                                      color: Colors.redAccent,
+                                    ),
+                                  ).show(context);
+                                });
                               }
                             },
                       child: isLoading
@@ -232,35 +256,6 @@ class _Login_ScreenState extends State<Login_Screen> {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 50,
-                    child: _futureUserLoggedIn == null
-                        ? Text("")
-                        : FutureBuilder<UserLogin>(
-                            future: _futureUserLoggedIn,
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                WidgetsBinding.instance!
-                                    .addPostFrameCallback((_) {
-                                  setState(() {
-                                    isLoading = false;
-                                  });
-                                });
-
-                                return Text(snapshot.data!.message);
-                              } else if (snapshot.hasError) {
-                                WidgetsBinding.instance!
-                                    .addPostFrameCallback((_) {
-                                  setState(() {
-                                    isLoading = false;
-                                  });
-                                });
-                                return Text("${snapshot.error}");
-                              }
-
-                              return const Text("");
-                            }),
-                  )
                 ],
               ),
             ),
