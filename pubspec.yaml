@@ -43,6 +43,11 @@ dependencies:
   google_sign_in: ^5.3.0
   firebase_core: ^1.14.1
   date_field: ^3.0.0
+  file_picker: ^4.1.5
+  firebase_storage: ^10.2.14
+  cloud_firestore: ^3.1.13
+  get: ^4.6.1
+  path: ^1.8.0
 
 dev_dependencies:
   flutter_test:

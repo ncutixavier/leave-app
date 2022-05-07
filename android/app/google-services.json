@@ -1,35 +1,77 @@
 {
   "project_info": {
-    "project_number": "688087372190",
-    "firebase_url": "https://airbnb-clone-48073.firebaseio.com",
-    "project_id": "airbnb-clone-48073",
-    "storage_bucket": "airbnb-clone-48073.appspot.com"
+    "project_number": "836150243114",
+    "project_id": "leaveapp-ec06c",
+    "storage_bucket": "leaveapp-ec06c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:688087372190:android:a1f03330c46d720567468f",
+        "mobilesdk_app_id": "1:836150243114:android:928a40e7bb007b1954b853",
         "android_client_info": {
           "package_name": "com.example.leaveapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "688087372190-je8pb0pq9pc72ubkmqqcgm53ljtq2ne9.apps.googleusercontent.com",
+          "client_id": "836150243114-mb75brobs3ptub2s0nj220ean9kotoi5.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDTZuY1SI1ztN_yJvPAntADaT0nHIYdFRY"
+          "current_key": "AIzaSyC-94ho1H3VkOzlzuVsjDQlQHGAgruzuqI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "688087372190-je8pb0pq9pc72ubkmqqcgm53ljtq2ne9.apps.googleusercontent.com",
+              "client_id": "836150243114-mb75brobs3ptub2s0nj220ean9kotoi5.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "836150243114-9l8b82iut0o7en2e05esms5s8jd4e6e2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ncutixavier.leaveapp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:836150243114:android:df43a90b8013e14a54b853",
+        "android_client_info": {
+          "package_name": "com.ncutixavier.leaveapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "836150243114-mb75brobs3ptub2s0nj220ean9kotoi5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-94ho1H3VkOzlzuVsjDQlQHGAgruzuqI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "836150243114-mb75brobs3ptub2s0nj220ean9kotoi5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "836150243114-9l8b82iut0o7en2e05esms5s8jd4e6e2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ncutixavier.leaveapp"
+              }
             }
           ]
         }

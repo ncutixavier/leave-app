@@ -37,7 +37,7 @@ class UserService {
       'email': email, 'password': password
     };
     var response = await http.post(
-      Uri.parse("https://nx-leave-app.herokuapp.com/api/v1/users/login"),
+        api.login(),
       headers: {
         "Accept": "application/json",
         "Content-Type": "application/x-www-form-urlencoded"
@@ -45,7 +45,7 @@ class UserService {
       body: data,
       encoding: Encoding.getByName("utf-8")
     );
-
+    print('DATA:: ${response.body}');
     if (response.statusCode == 200) {
       return UserLogin.fromJson(jsonDecode(response.body));
     } else {

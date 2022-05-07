@@ -10,6 +10,7 @@ import 'package:leaveapp/models/department.dart';
 import 'package:http/http.dart' as http;
 import 'package:leaveapp/services/department-service.dart';
 import 'package:leaveapp/models/department.dart';
+import 'package:leaveapp/services/snackbar_service.dart';
 import 'package:leaveapp/services/user_service.dart';
 import 'package:another_flushbar/flushbar.dart';
 
@@ -43,28 +44,36 @@ class _Register_ScreenState extends State<Register_Screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Leave Management System'),
+        centerTitle: true,
+        automaticallyImplyLeading: false,
+        toolbarHeight: 60.0,
+        elevation: 2.0,
+      ),
       body: SafeArea(
           child: Form(
         key: registerformkey,
         child: Container(
+          color: Color(0xffffffff),
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: SingleChildScrollView(
             child: Container(
               height: MediaQuery.of(context).size.height,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Image.asset("images/logo_dark.png"),
                   const SizedBox(
                     height: 20.0,
                   ),
-                  const Text(
-                    "Welcome to Leave Management System",
-                    style: TextStyle(fontFamily: "Inter-Bold", fontSize: 15.0),
+                  SizedBox(
+                    height: 60.0,
+                    width: 60.0,
+                    child: Image.asset("images/logo_dark.png"),
                   ),
                   Container(
-                    margin: EdgeInsets.symmetric(vertical: 35.0),
+                    margin: EdgeInsets.symmetric(vertical: 30.0),
                     child: Row(children: const [
                       Expanded(
                           child: Divider(
@@ -72,8 +81,8 @@ class _Register_ScreenState extends State<Register_Screen> {
                         thickness: 1,
                       )),
                       Text(
-                        "Register",
-                        style: TextStyle(fontSize: 16.0),
+                        "Let's create you an account",
+                        style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                       ),
                       Expanded(
                           child: Divider(
@@ -276,17 +285,7 @@ class _Register_ScreenState extends State<Register_Screen> {
                                       isloading = false;
                                     });
                                     Map msg = jsonDecode(error.message);
-                                    Flushbar(
-                                      message: msg['message'],
-                                      backgroundColor: Color(0xffFAE8EB),
-                                      duration: Duration(seconds: 3),
-                                      messageColor: Colors.redAccent,
-                                      messageSize: 15.0,
-                                      icon: Icon(
-                                        Icons.error,
-                                        color: Colors.redAccent,
-                                      ),
-                                    ).show(context);
+                                    SnackBarService.displaySnackBar(msg['message']).show(context);
                                   });
                               }
                             },

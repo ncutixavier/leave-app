@@ -37,33 +37,30 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyAybks3z5Oo31OF9n63RcK7csJEeu0uWV4',
-    appId: '1:688087372190:web:596525c79919692467468f',
-    messagingSenderId: '688087372190',
-    projectId: 'airbnb-clone-48073',
-    authDomain: 'airbnb-clone-48073.firebaseapp.com',
-    databaseURL: 'https://airbnb-clone-48073.firebaseio.com',
-    storageBucket: 'airbnb-clone-48073.appspot.com',
-    measurementId: 'G-SKBTN8EZZG',
+    apiKey: 'AIzaSyDoolXLWsHcWVwqekEL1RfeBA2XedTyVP0',
+    appId: '1:836150243114:web:04d7790c715cede054b853',
+    messagingSenderId: '836150243114',
+    projectId: 'leaveapp-ec06c',
+    authDomain: 'leaveapp-ec06c.firebaseapp.com',
+    storageBucket: 'leaveapp-ec06c.appspot.com',
+    measurementId: 'G-C21K3R6BX4',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDTZuY1SI1ztN_yJvPAntADaT0nHIYdFRY',
-    appId: '1:688087372190:android:a1f03330c46d720567468f',
-    messagingSenderId: '688087372190',
-    projectId: 'airbnb-clone-48073',
-    databaseURL: 'https://airbnb-clone-48073.firebaseio.com',
-    storageBucket: 'airbnb-clone-48073.appspot.com',
+    apiKey: 'AIzaSyC-94ho1H3VkOzlzuVsjDQlQHGAgruzuqI',
+    appId: '1:836150243114:android:928a40e7bb007b1954b853',
+    messagingSenderId: '836150243114',
+    projectId: 'leaveapp-ec06c',
+    storageBucket: 'leaveapp-ec06c.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBiS6fbhSYXeCOPyIhdMzRGubdm8s_kqM4',
-    appId: '1:688087372190:ios:69622d2fc3541b8767468f',
-    messagingSenderId: '688087372190',
-    projectId: 'airbnb-clone-48073',
-    databaseURL: 'https://airbnb-clone-48073.firebaseio.com',
-    storageBucket: 'airbnb-clone-48073.appspot.com',
-    iosClientId: '688087372190-e9iudmvbg3lnv1gam6l91ggmgip58j2h.apps.googleusercontent.com',
-    iosBundleId: 'com.leave.app',
+    apiKey: 'AIzaSyCXS-nmKCTWSrMBDr5cKtH9oLjpITtzBdM',
+    appId: '1:836150243114:ios:e3c7c0227575509954b853',
+    messagingSenderId: '836150243114',
+    projectId: 'leaveapp-ec06c',
+    storageBucket: 'leaveapp-ec06c.appspot.com',
+    iosClientId: '836150243114-mjfouqvi50f43jeoq37jead76ldkqknc.apps.googleusercontent.com',
+    iosBundleId: 'com.example.leaveapp',
   );
 }

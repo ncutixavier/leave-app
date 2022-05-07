@@ -1,5 +1,4 @@
 import 'package:firebase_core/firebase_core.dart';
-// Import the generated file
 import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:leaveapp/screens/splash.dart';
@@ -7,6 +6,7 @@ import 'package:leaveapp/screens/login.dart';
 import 'package:leaveapp/screens/leave.dart';
 import 'package:leaveapp/screens/register.dart';
 import 'package:leaveapp/screens/post.dart';
+import 'package:leaveapp/screens/forgot_password.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,7 +33,8 @@ class MyApp extends StatelessWidget {
         'login': (context) => Login_Screen(),
         'register': (context) => Register_Screen(),
         'leaves': (context) => Leave_Screen(),
-        'post': (context) => PostsPage()
+        'post': (context) => PostsPage(),
+        'forgot-password': (context) => ForgotPassword()
       },
     );
   }
