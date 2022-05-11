@@ -20,7 +20,7 @@ class GoogleAuthService extends ChangeNotifier{
 
     await FirebaseAuth.instance.signInWithCredential(credential);
     final response = FirebaseAuth.instance.currentUser;
-    print('USER-${response}');
+    print('USER-${response?.displayName}');
   }
 
   Future logout() async{

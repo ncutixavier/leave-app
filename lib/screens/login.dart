@@ -20,6 +20,7 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class Login_Screen extends StatefulWidget {
   const Login_Screen({Key? key}) : super(key: key);
@@ -44,6 +45,7 @@ class _Login_ScreenState extends State<Login_Screen> {
   bool isLoading = false;
 
   Future<UserLogin>? _futureUserLoggedIn;
+  AccessToken? accessToken;
 
   void initState() {
     super.initState();
@@ -51,7 +53,7 @@ class _Login_ScreenState extends State<Login_Screen> {
 
   Future<void> pickimage() async {
     FilePickerResult? result =
-    await FilePicker.platform.pickFiles(allowMultiple: true);
+        await FilePicker.platform.pickFiles(allowMultiple: true);
 
     if (result != null) {
       List<File> files = result.paths.map((path) => File(path!)).toList();
@@ -103,7 +105,8 @@ class _Login_ScreenState extends State<Login_Screen> {
                     )),
                     Text(
                       "Let's get you sign in",
-                      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 20.0, fontWeight: FontWeight.bold),
                     ),
                     Expanded(
                         child: Divider(
@@ -112,44 +115,73 @@ class _Login_ScreenState extends State<Login_Screen> {
                     )),
                   ]),
                 ),
-                // Container(
-                //   height: 55.0,
-                //   decoration: BoxDecoration(
-                //     borderRadius: BorderRadius.circular(8.0),
-                //     color: Color(0xffEBEDEF)
-                //   ),
-                //   child: InkWell(
-                //     onTap: () async{
-                //       // final provider = Provider.of<GoogleAuthService>(context, listen: false);
-                //       final res = await googleAuthService.googleLogin();
-                //       print('SIGN--$res');
-                //     },
-                //     child: Row(
-                //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                //       children: [
-                //         Container(
-                //           height: 20.0,
-                //           width: 20.0,
-                //           child: Image.asset("images/google.png"),
-                //         ),
-                //         Text("Sign in with google", style: TextStyle(
-                //           fontWeight: FontWeight.bold,
-                //           fontSize: 18.0
-                //         ),)
-                //       ],
-                //     ),
-                //   ),
-                // ),
-                // ElevatedButton(
-                //   child: Text("Logout"),
-                //   onPressed: () async{
-                //     final res = await googleAuthService.logout();
-                //     print("LOGOUT-$res");
-                //   },
-                // ),
-                // SizedBox(
-                //   height: 15.0,
-                // ),
+                Container(
+                  height: 55.0,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      color: Color(0xffEBEDEF)),
+                  child: InkWell(
+                    onTap: () async {
+                      // final provider = Provider.of<GoogleAuthService>(context, listen: false);
+                      final res = await googleAuthService.googleLogin();
+                      print('SIGN--$res');
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          height: 20.0,
+                          width: 20.0,
+                          child: Image.asset("images/google.png"),
+                        ),
+                        Text(
+                          "Sign in with google",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18.0),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 55.0,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8.0),
+                      color: Color(0xffEBEDEF)),
+                  child: InkWell(
+                    onTap: () async {
+                      // final provider = Provider.of<GoogleAuthService>(context, listen: false);
+                      // final res = await googleAuthService.googleLogin();
+                      // print('SIGN--$res');
+                      await signInWithFacebook();
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          height: 20.0,
+                          width: 20.0,
+                          child: Image.asset("images/facebook.jpg"),
+                        ),
+                        Text(
+                          "Sign in with facebook",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18.0),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  child: Text("Logout"),
+                  onPressed: () async {
+                    final res = await googleAuthService.logout();
+                    print("LOGOUT-$res");
+                  },
+                ),
+                SizedBox(
+                  height: 15.0,
+                ),
                 Center(
                     child: InkWell(
                         onTap: () {
@@ -157,12 +189,12 @@ class _Login_ScreenState extends State<Login_Screen> {
                         },
                         child: _file == null
                             ? Image.asset(
-                          'images/take_pic.png',
-                        )
+                                'images/take_pic.png',
+                              )
                             : CircleAvatar(
-                          radius: 40,
-                          backgroundImage: FileImage(_file!),
-                        ))),
+                                radius: 40,
+                                backgroundImage: FileImage(_file!),
+                              ))),
                 SizedBox(
                   height: 40.0,
                   child: ElevatedButton(
@@ -170,24 +202,24 @@ class _Login_ScreenState extends State<Login_Screen> {
                         padding: MaterialStateProperty.all(
                           const EdgeInsets.all(15),
                         ),
-                        backgroundColor: MaterialStateProperty.all(
-                            Color(0xff638FFF))),
-                    onPressed: () async{
+                        backgroundColor:
+                            MaterialStateProperty.all(Color(0xff638FFF))),
+                    onPressed: () async {
                       await uploadImageToFirebase();
                     },
                     child: isLoading
                         ? const SizedBox(
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                            Colors.white),
-                      ),
-                      height: 20.0,
-                      width: 20.0,
-                    )
+                            child: CircularProgressIndicator(
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                            ),
+                            height: 20.0,
+                            width: 20.0,
+                          )
                         : const Text(
-                      'Sign In',
-                      style: TextStyle(fontSize: 17),
-                    ),
+                            'Sign In',
+                            style: TextStyle(fontSize: 17),
+                          ),
                   ),
                 ),
                 Form(
@@ -306,7 +338,9 @@ class _Login_ScreenState extends State<Login_Screen> {
                                           isLoading = false;
                                         });
                                         Map msg = jsonDecode(error.message);
-                                        SnackBarService.displaySnackBar(msg['message']).show(context);
+                                        SnackBarService.displaySnackBar(
+                                                msg['message'])
+                                            .show(context);
                                       });
                                     }
                                   },
@@ -379,6 +413,16 @@ class _Login_ScreenState extends State<Login_Screen> {
     );
   }
 
+  signInWithFacebook() async{
+    final LoginResult result = await FacebookAuth.i.login();
+    if(result.status == LoginStatus.success){
+      accessToken = result.accessToken;
+
+      final response = await FacebookAuth.i.getUserData();
+      print("USER:: $response");
+    }
+  }
+
   Future uploadImageToFirebase() async {
     print(_file);
     final fileName = basename(_file!.path);
@@ -391,7 +435,11 @@ class _Login_ScreenState extends State<Login_Screen> {
     // uploadTask?.then((res) {
     //   res.ref.getDownloadURL().then((value) => print("Done: $value"));
     // });
-    var reference = FirebaseStorage.instance.ref().child("ncuti").child("images").child("${DateTime.now()}");
+    var reference = FirebaseStorage.instance
+        .ref()
+        .child("ncuti")
+        .child("images")
+        .child("${DateTime.now()}");
     final TaskSnapshot snapshot = await reference.putFile(_file!);
     final downloadUrl = await snapshot.ref.getDownloadURL();
     print("Done: $downloadUrl");
