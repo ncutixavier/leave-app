@@ -94,5 +94,9 @@ flutter:
     - family: Inter-Bold
       fonts:
         - asset: fonts/Inter-Bold.ttf
+
+    - family: Italianno-Regular
+      fonts:
+        - asset: fonts/Italianno-Regular.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

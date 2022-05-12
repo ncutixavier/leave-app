@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:leaveapp/screens/login.dart';
+import 'package:leaveapp/screens/sign_in.dart';
+import 'package:leaveapp/screens/welcome.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -18,21 +20,20 @@ class _SplashState extends State<Splash> {
     super.initState();
     Timer(Duration(
         seconds: 3
-    ), ()=>Navigator.of(context).pushNamed(Login_Screen.routename));
+    ), ()=>Navigator.of(context).pushNamed(Welcome.routeName));
 
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff638FFF),
+      backgroundColor: Color(0xFFAD0B63),
       body: Container(
-        color: Color(0xff638FFF),
         width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset("images/logo_light.png")
+            Image.asset("images/logo.png")
           ],
         ),
       ),

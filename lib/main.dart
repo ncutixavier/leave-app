@@ -7,6 +7,8 @@ import 'package:leaveapp/screens/leave.dart';
 import 'package:leaveapp/screens/register.dart';
 import 'package:leaveapp/screens/post.dart';
 import 'package:leaveapp/screens/forgot_password.dart';
+import 'package:leaveapp/screens/sign_in.dart';
+import 'package:leaveapp/screens/welcome.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +27,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: Color(0xFFAD0B63),
+        ),
       ),
       home: Splash(),
       routes: {
@@ -34,7 +38,9 @@ class MyApp extends StatelessWidget {
         'register': (context) => Register_Screen(),
         'leaves': (context) => Leave_Screen(),
         'post': (context) => PostsPage(),
-        'forgot-password': (context) => ForgotPassword()
+        'forgot-password': (context) => ForgotPassword(),
+        'sign-in': (context) => SignIn(),
+        'welcome': (context) => Welcome(),
       },
     );
   }

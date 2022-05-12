@@ -51,7 +51,7 @@ class _Login_ScreenState extends State<Login_Screen> {
 
   Future<void> pickimage() async {
     FilePickerResult? result =
-    await FilePicker.platform.pickFiles(allowMultiple: true);
+        await FilePicker.platform.pickFiles(allowMultiple: true);
 
     if (result != null) {
       List<File> files = result.paths.map((path) => File(path!)).toList();
@@ -78,7 +78,7 @@ class _Login_ScreenState extends State<Login_Screen> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            color: Color(0xffffffff),
+            color: const Color(0xffffffff),
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -103,7 +103,8 @@ class _Login_ScreenState extends State<Login_Screen> {
                     )),
                     Text(
                       "Let's get you sign in",
-                      style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 20.0, fontWeight: FontWeight.bold),
                     ),
                     Expanded(
                         child: Divider(
@@ -157,12 +158,12 @@ class _Login_ScreenState extends State<Login_Screen> {
                         },
                         child: _file == null
                             ? Image.asset(
-                          'images/take_pic.png',
-                        )
+                                'images/take_pic.png',
+                              )
                             : CircleAvatar(
-                          radius: 40,
-                          backgroundImage: FileImage(_file!),
-                        ))),
+                                radius: 40,
+                                backgroundImage: FileImage(_file!),
+                              ))),
                 SizedBox(
                   height: 40.0,
                   child: ElevatedButton(
@@ -170,24 +171,24 @@ class _Login_ScreenState extends State<Login_Screen> {
                         padding: MaterialStateProperty.all(
                           const EdgeInsets.all(15),
                         ),
-                        backgroundColor: MaterialStateProperty.all(
-                            Color(0xff638FFF))),
-                    onPressed: () async{
+                        backgroundColor:
+                            MaterialStateProperty.all(Color(0xff638FFF))),
+                    onPressed: () async {
                       await uploadImageToFirebase();
                     },
                     child: isLoading
                         ? const SizedBox(
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                            Colors.white),
-                      ),
-                      height: 20.0,
-                      width: 20.0,
-                    )
+                            child: CircularProgressIndicator(
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                            ),
+                            height: 20.0,
+                            width: 20.0,
+                          )
                         : const Text(
-                      'Sign In',
-                      style: TextStyle(fontSize: 17),
-                    ),
+                            'Sign In',
+                            style: TextStyle(fontSize: 17),
+                          ),
                   ),
                 ),
                 Form(
@@ -306,7 +307,9 @@ class _Login_ScreenState extends State<Login_Screen> {
                                           isLoading = false;
                                         });
                                         Map msg = jsonDecode(error.message);
-                                        SnackBarService.displaySnackBar(msg['message']).show(context);
+                                        SnackBarService.displaySnackBar(
+                                                msg['message'])
+                                            .show(context);
                                       });
                                     }
                                   },
@@ -391,7 +394,11 @@ class _Login_ScreenState extends State<Login_Screen> {
     // uploadTask?.then((res) {
     //   res.ref.getDownloadURL().then((value) => print("Done: $value"));
     // });
-    var reference = FirebaseStorage.instance.ref().child("ncuti").child("images").child("${DateTime.now()}");
+    var reference = FirebaseStorage.instance
+        .ref()
+        .child("ncuti")
+        .child("images")
+        .child("${DateTime.now()}");
     final TaskSnapshot snapshot = await reference.putFile(_file!);
     final downloadUrl = await snapshot.ref.getDownloadURL();
     print("Done: $downloadUrl");
