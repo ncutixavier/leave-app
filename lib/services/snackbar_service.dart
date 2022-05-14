@@ -15,4 +15,33 @@ class SnackBarService {
           color: Colors.redAccent,
         ),
       );
+
+  static showLoading(String text) {
+    Get.defaultDialog(
+      title: '',
+      content: SizedBox(
+        width: 100,
+        height: 100,
+        child: Center(
+          child: Column(
+            children: [
+              Text(text),
+              const SizedBox(
+                height: 4,
+              ),
+              const CircularProgressIndicator(
+                strokeWidth: 6.0,
+              ),
+            ],
+          ),
+        ),
+      ),
+      barrierDismissible: false,
+    );
+  }
+
+  static dismissLoadingIndicator() {
+    Get.back();
+  }
+
 }

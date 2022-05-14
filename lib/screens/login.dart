@@ -413,13 +413,21 @@ class _Login_ScreenState extends State<Login_Screen> {
     );
   }
 
-  signInWithFacebook() async{
-    final LoginResult result = await FacebookAuth.i.login();
-    if(result.status == LoginStatus.success){
-      accessToken = result.accessToken;
+  signInWithGoogle() async{
+    SnackBarService.showLoading("Loading");
+    final res = await googleAuthService.googleLogin();
+    if(res != null){
+      SnackBarService.dismissLoadingIndicator();
+      print('SIGN--$res');
+    }
+  }
 
-      final response = await FacebookAuth.i.getUserData();
-      print("USER:: $response");
+  signInWithFacebook() async{
+    SnackBarService.showLoading("Loading");
+    final res = await googleAuthService.facebookAuth();
+    if(res != null){
+      SnackBarService.dismissLoadingIndicator();
+      print('SIGN--$res');
     }
   }
 
